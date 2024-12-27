@@ -1,0 +1,276 @@
+{
+	"openapi": "3.0.0",
+	"components": {
+		"examples": {},
+		"headers": {},
+		"parameters": {},
+		"requestBodies": {},
+		"responses": {},
+		"schemas": {
+			"Funcao": {
+				"enum": [
+					"COMPRADOR",
+					"VISUALIZADOR",
+					"ADMINISTRADOR"
+				],
+				"type": "string"
+			},
+			"GetUser": {
+				"properties": {
+					"ativo": {
+						"type": "boolean"
+					},
+					"emailAcesso": {
+						"type": "string"
+					},
+					"funcao": {
+						"$ref": "#/components/schemas/Funcao"
+					},
+					"id": {
+						"type": "string"
+					},
+					"linkFoto": {
+						"type": "string"
+					},
+					"nome": {
+						"type": "string"
+					},
+					"responsavel": {
+						"type": "string"
+					},
+					"sobrenome": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"ativo",
+					"emailAcesso",
+					"funcao",
+					"id",
+					"linkFoto",
+					"nome",
+					"responsavel",
+					"sobrenome"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"GetUsersResponse": {
+				"properties": {
+					"items": {
+						"items": {
+							"$ref": "#/components/schemas/GetUser"
+						},
+						"type": "array"
+					},
+					"totalPages": {
+						"type": "number",
+						"format": "double"
+					},
+					"message": {
+						"type": "string"
+					},
+					"code": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"items",
+					"totalPages",
+					"code"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"CreateUserResponse": {
+				"properties": {
+					"message": {
+						"type": "string"
+					},
+					"code": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"code"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"CreateUserRequest": {
+				"properties": {
+					"emailAcesso": {
+						"type": "string"
+					},
+					"funcao": {
+						"$ref": "#/components/schemas/Funcao"
+					},
+					"nome": {
+						"type": "string"
+					},
+					"responsavel": {
+						"type": "string"
+					},
+					"sobrenome": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"emailAcesso",
+					"funcao",
+					"nome",
+					"responsavel",
+					"sobrenome"
+				],
+				"type": "object",
+				"additionalProperties": false
+			}
+		},
+		"securitySchemes": {}
+	},
+	"info": {
+		"title": "template-api-node",
+		"version": "1.0.0",
+		"description": "template api node + typescript",
+		"license": {
+			"name": "ISC"
+		},
+		"contact": {
+			"name": "Caio Alves"
+		}
+	},
+	"paths": {
+		"/users/get": {
+			"get": {
+				"operationId": "GetUsers",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/GetUsersResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Users"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "page",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "query",
+						"name": "limit",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "query",
+						"name": "nome",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "query",
+						"name": "emailAcesso",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "query",
+						"name": "funcao",
+						"required": false,
+						"schema": {
+							"$ref": "#/components/schemas/Funcao"
+						}
+					},
+					{
+						"in": "query",
+						"name": "ativo",
+						"required": false,
+						"schema": {
+							"type": "boolean"
+						}
+					},
+					{
+						"in": "query",
+						"name": "sort",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "query",
+						"name": "direction",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"enum": [
+								"asc",
+								"desc"
+							]
+						}
+					}
+				]
+			}
+		},
+		"/users/create": {
+			"post": {
+				"operationId": "Create",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/CreateUserResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Users"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/CreateUserRequest"
+							}
+						}
+					}
+				}
+			}
+		}
+	},
+	"servers": [
+		{
+			"url": "http://localhost:3000/"
+		}
+	]
+}
